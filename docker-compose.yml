@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+  zkp-app:
+    build: .
+    container_name: zkp-container
+    ports:
+      - "3000:3000"       
+    volumes:
+      - .:/app            
+    command: ["node", "server.js"]  
+    restart: unless-stopped
