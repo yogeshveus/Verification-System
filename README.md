@@ -83,7 +83,12 @@ docker-compose down
 
 ---
 
-##Screenshots
-Docker build and run success: `/screenshots/docker_run.png`
-App running on localhost: `/screenshots/app_runt.png`
-GitHub branches showing feature branch: `/screenshots/branches.png`
+## Screenshots (Proof of Setup)
+
+- Docker build and run success:  
+  ![Docker Build & Run](/screenshots/docker_run.png)
+- App running on localhost:  
+  ![App on Localhost](/screenshots/app_run.png)
+- GitHub branches showing feature branch:  
+  ![GitHub Branches](/screenshots/branches.png)
+
