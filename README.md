@@ -1,6 +1,6 @@
 # Blockchain Verification System
 
-**Overview:**
+## Overview:
 This is a blockchain-based verification system designed to ensure the authenticity, integrity, and immutability of digital records. By leveraging decentralized ledger technology and cryptographic proofs, the system enables users to verify documents, transactions, or data entries without relying on a centralized authority. The platform focuses on transparency, trust, and tamper-resistance while remaining easy to integrate with existing applications.
 
 ---
