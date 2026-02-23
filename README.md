@@ -88,6 +88,48 @@ This repository contains the Zero-Knowledge Proof (ZKP) project setup, Docker co
 
 ---
 
+## Software Design
+
+### Architecture Diagram:
+![arch_diag](design/architecture_diagram.png)
+
+The editable source draw.io file can also be found in the design folder.
+
+### Figma
+These wireframes represent only the skeletal design, and not the actual final UI screens.
+[Prototype link](https://www.figma.com/proto/pxrp0SrQPKZ2ua2QBz5laM/ZKP-system?node-id=37-14&p=f&t=zvj4oiTxtmgFB0W1-1&scaling=scale-down&content-scaling=fixed&page-id=17%3A152&starting-point-node-id=37%3A14&show-proto-sidebar=1).
+
+### Prototype flow instructions:
+* In the Welcome page, click the username section, and press 'm' for Manufacturer and 'c' for Consumer in your keyboard to go to Manufacturer and Consumer pages respectively.
+#### Manufacturer section:
+* Click either the Hash Page or Item Page
+##### Hash Page
+* Click the 'Get Hashes' button to simulate giving connecting to metamask, getting user inputs, and downloading the hashes json file from the system.
+##### Item Page
+* Click the 'Register Item' button to simulate filling all the necessary user inputs and then registerting
+* Click the MetaMask popup section to simulate approving the transaction for gas fees
+* Item is then registered
+
+#### Consumer section:
+* Click the "Verify Item" button to simulate filling all the necessary user inputs and then verifying the item.
+
+Welcome Page:
+![Welcome page](design/figma/Welcome.png)
+Manufacturer Pages:
+![Manufacturer page 0](design/figma/Manufacturer%200.png)
+![Manufacturer page 1](design/figma/Manufacturer%201.png)
+![Manufacturer page 2](design/figma/Manufacturer%202.png)
+![Manufacturer page 3](design/figma/Manufacturer%203.png)
+![Proof gen 1](design/figma/Proof%20gen%201.png)
+![Proof gen 2](design/figma/Proof%20gen%202.png)
+Consumer Pages:
+![Consumer page 1](design/figma/Consumer%201.png)
+![Consumer page 2](design/figma/Consumer%202.png)
+
+The user interface was designed with a consistent, minimalistic layout across all modules to ensure clarity and ease of navigation. Clear button labels, logical step-by-step workflows, and immediate visual feedback (e.g., success messages and hash outputs) were implemented to reduce user confusion and increase transparency. MetaMask integration was made explicit to reinforce trust and ensure users understand when blockchain transactions and gas confirmations occur.
+
+---
+
 ## Branching Strategy
 
 We are following **GitHub Flow** for our development process:
