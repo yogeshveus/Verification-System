@@ -115,14 +115,16 @@ These wireframes represent only the skeletal design, and not the actual final UI
 
 Welcome Page:
 ![Welcome page](design/figma/Welcome.png)
-Manufacturer Pages:
+
+##### Manufacturer Pages:
 ![Manufacturer page 0](design/figma/Manufacturer%200.png)
 ![Manufacturer page 1](design/figma/Manufacturer%201.png)
 ![Manufacturer page 2](design/figma/Manufacturer%202.png)
 ![Manufacturer page 3](design/figma/Manufacturer%203.png)
 ![Proof gen 1](design/figma/Proof%20gen%201.png)
 ![Proof gen 2](design/figma/Proof%20gen%202.png)
-Consumer Pages:
+
+##### Consumer Pages:
 ![Consumer page 1](design/figma/Consumer%201.png)
 ![Consumer page 2](design/figma/Consumer%202.png)
 
