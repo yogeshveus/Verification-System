@@ -124,9 +124,23 @@ Welcome Page:
 ![Proof gen 1](design/figma/Proof%20gen%201.png)
 ![Proof gen 2](design/figma/Proof%20gen%202.png)
 
+![Proof gen 1](design/figma/UI%20Images/proof1.png)
+![Proof gen 1](design/figma/UI%20Images/proof2.png)
+![Reg 1](design/figma/UI%20Images/reg1.png)
+![Reg 1](design/figma/UI%20Images/reg2.png)
+![Reg 1](design/figma/UI%20Images/reg3.png)
+![Reg 1](design/figma/UI%20Images/reg4.png)
+![Reg 1](design/figma/UI%20Images/reg5.png)
+
 ##### Consumer Pages:
 ![Consumer page 1](design/figma/Consumer%201.png)
 ![Consumer page 2](design/figma/Consumer%202.png)
+
+![Reg 1](design/figma/UI%20Images/con1.png)
+![Reg 1](design/figma/UI%20Images/con2.png)
+![Reg 1](design/figma/UI%20Images/con3.png)
+![Reg 1](design/figma/UI%20Images/con4.png)
+
 
 The user interface was designed with a consistent, minimalistic layout across all modules to ensure clarity and ease of navigation. Clear button labels, logical step-by-step workflows, and immediate visual feedback (e.g., success messages and hash outputs) were implemented to reduce user confusion and increase transparency. MetaMask integration was made explicit to reinforce trust and ensure users understand when blockchain transactions and gas confirmations occur.
 
