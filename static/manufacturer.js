@@ -1,4 +1,6 @@
 // ------------------ Variables ------------------
+console.log("JS LOADED");
+
 let contract;
 let itemIds = {};
 let selectedProduct = "";
@@ -6,34 +8,13 @@ const supplyChainAddress = "0x04c243f0b828B3e2A304f97c741855a6E26b25a3";
 const abi = [
   "function registerItem(uint256 itemId, bytes32 metadataHash, uint[2] calldata a, uint[2][2] calldata b, uint[2] calldata c, uint[] calldata publicSignals) external"
 ];
+document.getElementById("connectBtn").onclick = function () {
+  console.log("BUTTON CLICKED");
+  connectWallet();
+};
 
-// ------------------ DOM Loaded ------------------
-window.addEventListener("DOMContentLoaded", async () => {
-  document.getElementById("registerBtn").addEventListener("click", registerItem);
-  document.getElementById("connectBtn").addEventListener("click", connectWallet);
-
-
-
-  // When product changes
-  document.getElementById("productDropdown").addEventListener("change", (e) => {
-    selectedProduct = e.target.value;
-
-    // Handle image dynamically based on product name
-    const image = document.getElementById("productImage");
-
-    if (selectedProduct) {
-      // Dynamically generate the image path using product name (ID)
-      // Example: productDropdown value = "Handbag" → images/handbag.jpg
-      const imagePath = `images/${selectedProduct.toLowerCase()}.jpg`;
-
-      image.src = imagePath;
-      image.alt = `${selectedProduct} image`;
-      image.style.display = "block";
-    } else {
-      image.style.display = "none";
-    }
-  })
-});
+document.getElementById("registerBtn").addEventListener("click", registerItem);
+document.getElementById("connectBtn").addEventListener("click", connectWallet);
 
 // ------------------ Connect MetaMask ------------------
 async function connectWallet() {
@@ -48,7 +29,6 @@ async function connectWallet() {
     const signer = provider.getSigner();
     contract = new ethers.Contract(supplyChainAddress, abi, signer);
 
-    document.getElementById("registerBtn").disabled = false;
     document.getElementById("walletAddress").innerText = `Connected to wallet address: ${accounts[0]}`;
     document.getElementById("connectBtn").innerText = "Connected";
   } catch (err) {
@@ -70,10 +50,11 @@ async function registerItem() {
     alert("Please enter an Item ID.");
     return;
   }
-  // Load proof file
+
   let proof;
   try {
-    const response = await fetch("proofData.json");
+    const response = await fetch("/static/proofData.json")
+
     proof = await response.json();
   } catch (err) {
     console.error("Failed to load proofData.json:", err);
@@ -109,7 +90,7 @@ async function sendStoredItemToBlockchain(itemId, product, metadataHash) {
   }
 
   try {
-    const response = await fetch("proofData.json");
+    const response = await fetch("/static/proofData.json")
     const proof = await response.json();
 
     let { a, b, c, publicSignals } = proof;
@@ -119,7 +100,9 @@ async function sendStoredItemToBlockchain(itemId, product, metadataHash) {
     c = c.map(x => ethers.BigNumber.from(x));
     publicSignals = publicSignals.map(x => ethers.BigNumber.from(x));
 
-    let formattedHash = ethers.utils.formatBytes32String(metadataHash);
+    let formattedHash = ethers.utils.keccak256(
+      ethers.utils.toUtf8Bytes(metadataHash)
+    );
 
     const tx = await contract.registerItem(
       parseInt(itemId),

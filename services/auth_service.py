@@ -1,18 +1,20 @@
 from models.user_model import create_user, get_user
 from database.db import get_connection
+from werkzeug.security import check_password_hash
+from werkzeug.security import generate_password_hash
 
 def register_user(name, email, password, role):
-    return create_user(name, email, password, role)
-
+    hashed_password = generate_password_hash(password)
+    return create_user(name, email, hashed_password, role)
 
 def login_user(email, password):
-    user = get_user(email, password)
+    user = get_user_by_email(email) 
 
     if user:
-        return {"status": True, "role": user[4]}
-    else:
-        return {"status": False}
-    
+        if check_password_hash(user[3], password): 
+            return {"status": True, "role": user[4]}
+
+    return {"status": False}
 
 def get_user_by_email(email):
 

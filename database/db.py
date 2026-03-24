@@ -19,7 +19,8 @@ def init_db():
         CREATE TABLE IF NOT EXISTS product_types (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT UNIQUE,
-            created_by TEXT
+            created_by TEXT,
+            is_active INTEGER DEFAULT 1
         )
     ''')
 

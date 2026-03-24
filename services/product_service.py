@@ -15,7 +15,7 @@ def save_product(itemId, product_type_id, metadataHash, manufacturer_email):
 def get_product_types(user_email):
     conn = sqlite3.connect('users.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT id, name FROM product_types WHERE created_by = ?", (user_email,))
+    cursor.execute("SELECT id, name FROM product_types WHERE created_by = ? AND is_active = 1", (user_email,))
     products = cursor.fetchall()
     conn.close()
     return [p[1] for p in products]
@@ -23,11 +23,22 @@ def get_product_types(user_email):
 def add_product_type(name, user_email):
     conn = sqlite3.connect('users.db')
     cursor = conn.cursor()
-
     cursor.execute(
-        "INSERT OR IGNORE INTO product_types (name, created_by) VALUES (?, ?)",
+        "SELECT is_active FROM product_types WHERE name = ? AND created_by = ?",
         (name, user_email)
     )
+    result = cursor.fetchone()
+
+    if result:
+        cursor.execute(
+            "UPDATE product_types SET is_active = 1 WHERE name = ? AND created_by = ?",
+            (name, user_email)
+        )
+    else:
+        cursor.execute(
+            "INSERT INTO product_types (name, created_by, is_active) VALUES (?, ?, 1)",
+            (name, user_email)
+        )
 
     conn.commit()
     conn.close()

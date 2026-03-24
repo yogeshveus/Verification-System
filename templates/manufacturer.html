@@ -1,58 +1,403 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Manufacturer</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #1F2833;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            color: #C5C6C7;
+        }
+
+        h1 {
+            text-align: center;
+            color: #66FCF1;
+            margin-bottom: 30px;
+            font-size: 26px;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(102, 252, 241, 0.4);
+        }
+
+        .container {
+            background-color: #0B0C10;
+            padding: 40px 50px;
+            border-radius: 12px;
+            box-shadow: 0 0 25px rgba(102, 252, 241, 0.1);
+            text-align: center;
+            min-width: 380px;
+            border: 1px solid rgba(69, 162, 158, 0.3);
+            transition: box-shadow 0.4s ease;
+        }
+
+        .container:hover {
+            box-shadow: 0 0 35px rgba(102, 252, 241, 0.25);
+        }
+
+        #connectBtn,
+        #registerBtn {
+            width: 100%;
+            max-width: 300px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        #connectBtn {
+            background: linear-gradient(90deg, #45A29E, #66FCF1);
+            color: #0B0C10;
+            box-shadow: 0 0 12px rgba(102, 252, 241, 0.3);
+        }
+
+        #connectBtn:hover {
+            box-shadow: 0 0 25px rgba(102, 252, 241, 0.6);
+            transform: scale(1.05);
+        }
+
+        #registerBtn {
+            background: linear-gradient(90deg, #66FCF1, #45A29E);
+            color: #0B0C10;
+            box-shadow: 0 0 12px rgba(102, 252, 241, 0.3);
+        }
+
+        #registerBtn:hover:enabled {
+            box-shadow: 0 0 25px rgba(102, 252, 241, 0.6);
+            transform: scale(1.05);
+        }
+
+        #registerBtn:disabled {
+            background: #2E3B45;
+            color: #8a8b8c;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        input[type="number"],
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            border: 1px solid #45A29E;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 15px;
+            background-color: #1F2833;
+            color: #C5C6C7;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            border-color: #66FCF1;
+            box-shadow: 0 0 8px rgba(102, 252, 241, 0.4);
+            outline: none;
+        }
+
+        p {
+            margin: 10px 0 5px;
+            font-size: 15px;
+            color: #C5C6C7;
+        }
+
+        #walletAddress {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #66FCF1;
+            text-shadow: 0 0 6px rgba(102, 252, 241, 0.3);
+        }
+
+        #registerResult {
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #45A29E;
+        }
+
+        #productDropdown {
+            width: 320px;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #45A29E;
+            background-color: #1F2833;
+            color: #C5C6C7;
+            font-size: 15px;
+            font-weight: 500;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        #productDropdown:focus {
+            border-color: #66FCF1;
+            box-shadow: 0 0 8px rgba(102, 252, 241, 0.4);
+            outline: none;
+        }
+
+        #productDropdown::-ms-expand {
+            display: none;
+        }
+
+
+        #productDropdown option {
+            background-color: #0B0C10;
+            color: #C5C6C7;
+            padding: 10px;
+            font-weight: 500;
+        }
+
+        #productDropdown option:hover {
+            background-color: #45A29E;
+            color: #0B0C10;
+        }
+
+        h2,
+        h3 {
+            color: #66FCF1;
+            margin-bottom: 15px;
+        }
+
+        hr {
+            border: 1px solid rgba(69, 162, 158, 0.3);
+            margin: 20px 0;
+        }
+
+        button[type="submit"] {
+            background: linear-gradient(90deg, #45A29E, #66FCF1);
+            color: #0B0C10;
+            padding: 10px 18px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(102, 252, 241, 0.5);
+        }
+
+        /* TABLE STYLING */
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 14px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .styled-table th {
+            background-color: #45A29E;
+            color: #0B0C10;
+            padding: 10px;
+        }
+
+        .styled-table td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .styled-table tr {
+            border-bottom: 1px solid rgba(69, 162, 158, 0.3);
+        }
+
+        .styled-table tr:hover {
+            background-color: rgba(102, 252, 241, 0.1);
+        }
+
+        /* Logout link */
+        a {
+            color: #66FCF1;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .send-btn {
+            background: linear-gradient(90deg, #45A29E, #66FCF1);
+            color: #0B0C10;
+            padding: 6px 14px;
+            border-radius: 6px;
+            border: none;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 8px rgba(102, 252, 241, 0.3);
+        }
+
+        /* Hover effect */
+        .send-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 18px rgba(102, 252, 241, 0.7);
+        }
+
+        /* Click effect */
+        .send-btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 0 10px rgba(102, 252, 241, 0.4);
+        }
+
+        .delete-btn {
+            background: linear-gradient(90deg, #ff4d4d, #ff1a1a);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 6px;
+            border: none;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 77, 77, 0.7);
+        }
+
+        .delete-btn:active {
+            transform: scale(0.95);
+        }
+        .success {
+            background: rgba(102, 252, 241, 0.1);
+            color: #66FCF1;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        .error {
+            background: rgba(255, 77, 77, 0.1);
+            color: #ff4d4d;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
+
 <body>
-
-<h2>Manufacturer Dashboard</h2>
-
-<form method="POST" action="/manufacturer">
-
-    <input type="text" name="itemId" placeholder="Item ID" required><br><br>
-
-    <select name="productDropdown">
-        {% for p in products %}
-            <option value="{{ p }}">{{ p }}</option>
+    <div class="container">
+        <h1>Welcome, {{ session.name }}</h1>
+        <br>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+        <p class="{{ category }}">{{ message }}</p>
         {% endfor %}
-    </select><br><br>
+        {% endwith %}
+        <button id="connectBtn">Connect MetaMask</button>
+        <p id="walletAddress"></p>
 
-    <input type="text" name="metadataHash" placeholder="Metadata Hash" required><br><br>
+        <form method="POST" action="/manufacturer">
 
-    <button type="submit">Submit</button>
+            <input type="text" name="itemId" placeholder="Item ID" required>
 
-</form>
-<h3>Add New Product Type</h3>
+            <select name="productDropdown" id="productDropdown">
+                {% for p in products %}
+                <option value="{{ p }}">{{ p }}</option>
+                {% endfor %}
+            </select>
 
-<form method="POST" action="/add-product-type">
+            <input type="text" name="metadataHash" placeholder="Metadata Hash" required>
 
-    <input type="text" name="newProduct" placeholder="Enter new product type" required><br><br>
+            <button type="submit" id="submitBtn">Submit</button>
 
-    <button type="submit">Add Product Type</button>
+        </form>
 
-</form>
-<hr>
+        <hr>
 
-<h3>Stored Products</h3>
+        <h3>Add New Product Type</h3>
 
-<table border="1">
-    <tr>
-        <th>Item ID</th>
-        <th>Product</th>
-        <th>Metadata Hash</th>
-        <th>Manufacturer</th>
-    </tr>
+        <form method="POST" action="/add-product-type">
+            <input type="text" name="newProduct" placeholder="Enter new product type" required>
+            <button type="submit">Add Product Type</button>
+        </form>
+        <h3>Product Types</h3>
 
-    {% for p in stored_products %}
-    <tr>
-        <td>{{ p[0] }}</td>
-        <td>{{ p[1] }}</td>
-        <td>{{ p[2] }}</td>
-        <td>{{ p[3] }}</td>
-    </tr>
-    {% endfor %}
+        <table class="styled-table">
+            <tr>
+                <th>Product Type</th>
+                <th>Action</th>
+            </tr>
 
-</table>
-<a href="/logout">Logout</a>
+            {% for p in products %}
+            <tr>
+                <td>{{ p }}</td>
+                <td>
+                    <form method="POST" action="/delete-product-type" style="display:inline;">
+                        <input type="hidden" name="product" value="{{ p }}">
+                        <button class="delete-btn" type="submit" onclick="return confirm('Delete this product type?')">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="container" style="margin-top:20px;">
+
+        <h3>Stored Products</h3>
+
+        <table class="styled-table">
+            <tr>
+                <th>Item ID</th>
+                <th>Product</th>
+                <th>Metadata Hash</th>
+                <th>Manufacturer</th>
+                <th>Send</th>
+                <th>Delete</th>
+            </tr>
+
+            {% for p in stored_products %}
+            <tr>
+                <td>{{ p[0] }}</td>
+                <td>{{ p[1] }}</td>
+                <td>{{ p[2] }}</td>
+                <td>{{ p[3] }}</td>
+                <td>
+                    <button class="send-btn"
+                        onclick="sendStoredItemToBlockchain('{{ p[0] }}','{{ p[1] }}','{{ p[2] }}')">
+                        Send
+                    </button>
+                </td>
+                <td>
+                    <form method="POST" action="/delete-item" style="display:inline;">
+                        <input type="hidden" name="itemId" value="{{ p[0] }}">
+                        <button class="delete-btn" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+
+        </table>
+
+        <br>
+        <a href="/logout">Logout</a>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+    <script src="{{ url_for('static', filename='manufacturer.js') }}"></script>
+
 </body>
+
 </html>
