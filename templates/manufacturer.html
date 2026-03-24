@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manufacturer</title>
+</head>
+<body>
+
+<h2>Manufacturer Dashboard</h2>
+
+<form method="POST" action="/manufacturer">
+
+    <input type="text" name="itemId" placeholder="Item ID" required><br><br>
+
+    <select name="productDropdown">
+        {% for p in products %}
+            <option value="{{ p }}">{{ p }}</option>
+        {% endfor %}
+    </select><br><br>
+
+    <input type="text" name="metadataHash" placeholder="Metadata Hash" required><br><br>
+
+    <button type="submit">Submit</button>
+
+</form>
+<h3>Add New Product Type</h3>
+
+<form method="POST" action="/add-product-type">
+
+    <input type="text" name="newProduct" placeholder="Enter new product type" required><br><br>
+
+    <button type="submit">Add Product Type</button>
+
+</form>
+<hr>
+
+<h3>Stored Products</h3>
+
+<table border="1">
+    <tr>
+        <th>Item ID</th>
+        <th>Product</th>
+        <th>Metadata Hash</th>
+        <th>Manufacturer</th>
+    </tr>
+
+    {% for p in stored_products %}
+    <tr>
+        <td>{{ p[0] }}</td>
+        <td>{{ p[1] }}</td>
+        <td>{{ p[2] }}</td>
+        <td>{{ p[3] }}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+<a href="/logout">Logout</a>
+</body>
+</html>

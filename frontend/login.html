@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+
+<h2>Login</h2>
+
+<form id="loginForm">
+    <input type="email" id="email" placeholder="Email" required /><br><br>
+    <input type="password" id="password" placeholder="Password" required /><br><br>
+
+    <button type="submit">Login</button>
+</form>
+
+<p id="message"></p>
+
+<script>
+document.getElementById("loginForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const data = {
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value
+    };
+
+    const res = await fetch("http://localhost:5000/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+    console.log("SERVER RESPONSE:", result);   
+    console.log("Status OK?:", res.ok);
+    if(res.ok){
+        localStorage.setItem("token", result.token);
+        localStorage.setItem("role", result.role);
+
+        if(result.role === "manufacturer"){
+            window.location.href = "manhome.html";
+        }
+        else if(result.role === "consumer"){
+            window.location.href = "consumer.html";
+        }
+    } else {
+        document.getElementById("message").innerText = result.message;
+    }
+});
+</script>
+
+</body>
+</html>

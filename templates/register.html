@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <style>
+        body { font-family: Arial; text-align: center; margin-top: 50px; }
+        input, select { padding: 8px; margin: 5px; width: 200px; }
+        button { padding: 10px 20px; }
+    </style>
+</head>
+<body>
+
+<h2>Register</h2>
+
+<form method="POST" action="/register">
+    <input type="text" name="name" placeholder="Name" required><br>
+    
+    <input type="email" name="email" placeholder="Email" required><br>
+    
+    <input type="password" name="password" placeholder="Password" required><br>
+    
+    <select name="role">
+        <option value="consumer">Consumer</option>
+        <option value="manufacturer">Manufacturer</option>
+    </select><br>
+    
+    <button type="submit">Register</button>
+</form>
+
+<br>
+<a href="/login">Already have an account? Login</a>
+
+</body>
+</html>

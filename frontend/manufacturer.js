@@ -1,6 +1,6 @@
 // ------------------ Variables ------------------
 let contract;
-let itemIds = {}; 
+let itemIds = {};
 let selectedProduct = "";
 const supplyChainAddress = "0x04c243f0b828B3e2A304f97c741855a6E26b25a3";
 const abi = [
@@ -12,41 +12,28 @@ window.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("registerBtn").addEventListener("click", registerItem);
   document.getElementById("connectBtn").addEventListener("click", connectWallet);
 
-  // Load itemIds.json
-  try {
-    const response = await fetch("itemIds.json");
-    itemIds = await response.json();
-  } catch (err) {
-    console.error("Failed to load itemIds.json:", err);
-  }
 
 
   // When product changes
-document.getElementById("productDropdown").addEventListener("change", (e) => {
-  selectedProduct = e.target.value;
+  document.getElementById("productDropdown").addEventListener("change", (e) => {
+    selectedProduct = e.target.value;
 
-  // Update the displayed item ID
-  if (selectedProduct && itemIds[selectedProduct]) {
-    document.getElementById("itemIdDisplay").innerText = itemIds[selectedProduct];
-  } else {
-    document.getElementById("itemIdDisplay").innerText = "—";
-  }
+    // Handle image dynamically based on product name
+    const image = document.getElementById("productImage");
 
-  // Handle image dynamically based on product name
-  const image = document.getElementById("productImage");
+    if (selectedProduct) {
+      // Dynamically generate the image path using product name (ID)
+      // Example: productDropdown value = "Handbag" → images/handbag.jpg
+      const imagePath = `images/${selectedProduct.toLowerCase()}.jpg`;
 
-  if (selectedProduct) {
-    // Dynamically generate the image path using product name (ID)
-    // Example: productDropdown value = "Handbag" → images/handbag.jpg
-    const imagePath = `images/${selectedProduct.toLowerCase()}.jpg`;
-
-    image.src = imagePath;
-    image.alt = `${selectedProduct} image`;
-    image.style.display = "block";
-  } else {
-    image.style.display = "none";
-  }
-})});
+      image.src = imagePath;
+      image.alt = `${selectedProduct} image`;
+      image.style.display = "block";
+    } else {
+      image.style.display = "none";
+    }
+  })
+});
 
 // ------------------ Connect MetaMask ------------------
 async function connectWallet() {
@@ -77,10 +64,12 @@ async function registerItem() {
     alert("Please select a product.");
     return;
   }
-
-  const itemId = itemIds[selectedProduct];
+  const itemId = document.getElementById("itemIdInput").value;
   const metadataHash = document.getElementById("metadataHash").value;
-
+  if (!itemId) {
+    alert("Please enter an Item ID.");
+    return;
+  }
   // Load proof file
   let proof;
   try {
@@ -106,27 +95,9 @@ async function registerItem() {
       `${selectedProduct} (ID ${itemId}) registered successfully!`;
     document.getElementById("registerResult").style.color = "#00ff7f";
 
-    // Increment ID locally
-    itemIds[selectedProduct]++;
-    saveItemIds(itemIds);
-    document.getElementById("itemIdDisplay").innerText = itemIds[selectedProduct];
   } catch (err) {
     console.error(err);
     document.getElementById("registerResult").innerText = "Registration failed: " + (err.reason || "unknown error");
     document.getElementById("registerResult").style.color = "#ff4c4c";
-  }
-}
-
-// ------------------ Save Updated IDs ------------------
-async function saveItemIds(updatedData) {
-  try {
-    await fetch("/save-itemids", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updatedData)
-    });
-    console.log("itemIds.json updated successfully");
-  } catch (err) {
-    console.error("Failed to save itemIds.json:", err);
   }
 }
