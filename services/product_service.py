@@ -1,7 +1,8 @@
 import sqlite3
+from config import DATABASE
 
 def save_product(itemId, product_type_id, metadataHash, manufacturer_email):
-    conn = sqlite3.connect('users.db')
+    conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
 
     cursor.execute("""
@@ -13,7 +14,7 @@ def save_product(itemId, product_type_id, metadataHash, manufacturer_email):
     conn.close()
 
 def get_product_types(user_email):
-    conn = sqlite3.connect('users.db')
+    conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
     cursor.execute("SELECT id, name FROM product_types WHERE created_by = ? AND is_active = 1", (user_email,))
     products = cursor.fetchall()
@@ -21,7 +22,7 @@ def get_product_types(user_email):
     return [p[1] for p in products]
 
 def add_product_type(name, user_email):
-    conn = sqlite3.connect('users.db')
+    conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
     cursor.execute(
         "SELECT is_active FROM product_types WHERE name = ? AND created_by = ?",
@@ -44,7 +45,7 @@ def add_product_type(name, user_email):
     conn.close()
 
 def get_all_products(email):
-    conn = sqlite3.connect('users.db')
+    conn = sqlite3.connect(DATABASE)
     cur = conn.cursor()
 
     cur.execute("""

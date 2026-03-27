@@ -3,23 +3,29 @@
 
 <head>
     <title>Manufacturer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #1F2833;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
+            justify-content: flex-start;
+            min-height: 100vh;
             margin: 0;
+            padding: 40px 20px;
             color: #C5C6C7;
         }
 
         h1 {
             text-align: center;
             color: #66FCF1;
-            margin-bottom: 30px;
+            margin-bottom: 24px;
             font-size: 26px;
             letter-spacing: 1px;
             text-shadow: 0 0 10px rgba(102, 252, 241, 0.4);
@@ -27,13 +33,15 @@
 
         .container {
             background-color: #0B0C10;
-            padding: 40px 50px;
+            padding: 36px 40px;
             border-radius: 12px;
             box-shadow: 0 0 25px rgba(102, 252, 241, 0.1);
             text-align: center;
-            min-width: 380px;
+            width: 100%;
+            max-width: 560px;
             border: 1px solid rgba(69, 162, 158, 0.3);
             transition: box-shadow 0.4s ease;
+            margin-bottom: 20px;
         }
 
         .container:hover {
@@ -52,6 +60,7 @@
             font-weight: 500;
             transition: all 0.3s ease;
             margin-top: 10px;
+            margin-bottom: 8px;
         }
 
         #connectBtn {
@@ -83,17 +92,26 @@
             box-shadow: none;
         }
 
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+
         input[type="number"],
         input[type="text"] {
-            width: 300px;
-            padding: 10px;
+            width: 100%;
+            max-width: 380px;
+            padding: 11px 14px;
             border: 1px solid #45A29E;
             border-radius: 6px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             font-size: 15px;
             background-color: #1F2833;
             color: #C5C6C7;
             transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
         }
 
         input:focus {
@@ -123,21 +141,23 @@
         }
 
         #productDropdown {
-            width: 320px;
-            padding: 10px;
+            width: 100%;
+            max-width: 380px;
+            padding: 11px 14px;
             border-radius: 6px;
             border: 1px solid #45A29E;
             background-color: #1F2833;
             color: #C5C6C7;
             font-size: 15px;
             font-weight: 500;
+            font-family: 'Poppins', sans-serif;
             appearance: none;
             -webkit-appearance: none;
             -moz-appearance: none;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-bottom: 15px;
-            text-align: center;
+            margin-bottom: 12px;
+            text-align: left;
         }
 
         #productDropdown:focus {
@@ -149,7 +169,6 @@
         #productDropdown::-ms-expand {
             display: none;
         }
-
 
         #productDropdown option {
             background-color: #0B0C10;
@@ -166,31 +185,38 @@
         h2,
         h3 {
             color: #66FCF1;
-            margin-bottom: 15px;
+            margin-top: 4px;
+            margin-bottom: 16px;
         }
 
         hr {
-            border: 1px solid rgba(69, 162, 158, 0.3);
-            margin: 20px 0;
+            border: none;
+            border-top: 1px solid rgba(69, 162, 158, 0.3);
+            margin: 24px 0;
+            width: 100%;
         }
 
         button[type="submit"] {
             background: linear-gradient(90deg, #45A29E, #66FCF1);
             color: #0B0C10;
-            padding: 10px 18px;
+            padding: 11px 28px;
             border-radius: 6px;
             border: none;
             cursor: pointer;
-            font-weight: 500;
+            font-weight: 600;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
             transition: 0.3s;
+            width: 100%;
+            max-width: 380px;
+            margin-top: 4px;
         }
 
         button:hover {
-            transform: scale(1.05);
+            transform: scale(1.03);
             box-shadow: 0 0 15px rgba(102, 252, 241, 0.5);
         }
 
-        /* TABLE STYLING */
         .styled-table {
             width: 100%;
             border-collapse: collapse;
@@ -203,11 +229,12 @@
         .styled-table th {
             background-color: #45A29E;
             color: #0B0C10;
-            padding: 10px;
+            padding: 10px 12px;
+            font-weight: 600;
         }
 
         .styled-table td {
-            padding: 10px;
+            padding: 10px 12px;
             text-align: center;
         }
 
@@ -216,14 +243,15 @@
         }
 
         .styled-table tr:hover {
-            background-color: rgba(102, 252, 241, 0.1);
+            background-color: rgba(102, 252, 241, 0.05);
         }
 
-        /* Logout link */
         a {
             color: #66FCF1;
             text-decoration: none;
             font-weight: bold;
+            display: inline-block;
+            margin-top: 20px;
         }
 
         a:hover {
@@ -243,13 +271,11 @@
             box-shadow: 0 0 8px rgba(102, 252, 241, 0.3);
         }
 
-        /* Hover effect */
         .send-btn:hover {
             transform: scale(1.1);
             box-shadow: 0 0 18px rgba(102, 252, 241, 0.7);
         }
 
-        /* Click effect */
         .send-btn:active {
             transform: scale(0.95);
             box-shadow: 0 0 10px rgba(102, 252, 241, 0.4);
@@ -265,6 +291,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
+            white-space: nowrap;
         }
 
         .delete-btn:hover {
@@ -275,6 +302,8 @@
         .delete-btn:active {
             transform: scale(0.95);
         }
+
+
         .success {
             background: rgba(102, 252, 241, 0.1);
             color: #66FCF1;
@@ -290,35 +319,96 @@
             border-radius: 6px;
             margin-bottom: 10px;
         }
+
+        .container.wide {
+            max-width: 960px;
+        }
+
+        .container.wide .styled-table {
+            table-layout: fixed;
+            word-break: break-all;
+        }
+
+        .container.wide .styled-table th:nth-child(1),
+        .container.wide .styled-table td:nth-child(1) {
+            width: 8%;
+        }
+
+        .container.wide .styled-table th:nth-child(2),
+        .container.wide .styled-table td:nth-child(2) {
+            width: 10%;
+        }
+
+        .container.wide .styled-table th:nth-child(3),
+        .container.wide .styled-table td:nth-child(3) {
+            width: 34%;
+            max-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 12px;
+            font-family: monospace;
+        }
+
+        .container.wide .styled-table th:nth-child(4),
+        .container.wide .styled-table td:nth-child(4) {
+            width: 20%;
+        }
+
+        .container.wide .styled-table th:nth-child(5),
+        .container.wide .styled-table td:nth-child(5) {
+            width: 15%;
+        }
+
+        .container.wide .styled-table th:nth-child(6),
+        .container.wide .styled-table td:nth-child(6) {
+            width: 15%;
+        }
+
+        .container.wide .styled-table td:nth-child(3) span {
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            cursor: help;
+        }
+
+        #productDropdown option[value=""] {
+            color: #a0a0a0;
+        }
+        .styled-table th {
+    white-space: nowrap;
+}
     </style>
 </head>
 
 <body>
     <div class="container">
         <h1>Welcome, {{ session.name }}</h1>
-        <br>
+
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% for category, message in messages %}
         <p class="{{ category }}">{{ message }}</p>
         {% endfor %}
         {% endwith %}
+
         <button id="connectBtn">Connect MetaMask</button>
         <p id="walletAddress"></p>
 
-        <form method="POST" action="/manufacturer">
+        <hr>
 
+        <h3>Enter Item Details</h3>
+
+        <form method="POST" action="/manufacturer/item">
             <input type="text" name="itemId" placeholder="Item ID" required>
-
-            <select name="productDropdown" id="productDropdown">
+            <select name="productDropdown" id="productDropdown" style="color: #7d7d7d;">
+                <option value="" disabled selected>Product Type</option>
                 {% for p in products %}
                 <option value="{{ p }}">{{ p }}</option>
                 {% endfor %}
             </select>
-
             <input type="text" name="metadataHash" placeholder="Metadata Hash" required>
-
             <button type="submit" id="submitBtn">Submit</button>
-
         </form>
 
         <hr>
@@ -329,6 +419,9 @@
             <input type="text" name="newProduct" placeholder="Enter new product type" required>
             <button type="submit">Add Product Type</button>
         </form>
+
+        <hr>
+
         <h3>Product Types</h3>
 
         <table class="styled-table">
@@ -336,7 +429,6 @@
                 <th>Product Type</th>
                 <th>Action</th>
             </tr>
-
             {% for p in products %}
             <tr>
                 <td>{{ p }}</td>
@@ -353,8 +445,7 @@
         </table>
     </div>
 
-    <div class="container" style="margin-top:20px;">
-
+    <div class="container wide">
         <h3>Stored Products</h3>
 
         <table class="styled-table">
@@ -371,7 +462,7 @@
             <tr>
                 <td>{{ p[0] }}</td>
                 <td>{{ p[1] }}</td>
-                <td>{{ p[2] }}</td>
+                <td><span title="{{ p[2] }}">{{ p[2] }}</span></td>
                 <td>{{ p[3] }}</td>
                 <td>
                     <button class="send-btn"
@@ -387,17 +478,19 @@
                 </td>
             </tr>
             {% endfor %}
-
         </table>
 
-        <br>
         <a href="/logout">Logout</a>
-
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
-    <script src="{{ url_for('static', filename='manufacturer.js') }}"></script>
-
+    <script src="{{ url_for('static', filename='js/manufacturer.js') }}"></script>
+    <script>
+        const dropdown = document.getElementById('productDropdown');
+        dropdown.addEventListener('change', function () {
+            this.style.color = this.value === '' ? '#a0a0a0' : '#C5C6C7';
+        });
+    </script>
 </body>
 
 </html>

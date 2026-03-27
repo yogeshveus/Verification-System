@@ -65,26 +65,45 @@
       color: #66FCF1;
       margin-top: 10px;
     }
+
+        a {
+            color: #66FCF1;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
   </style>
 </head>
 <body>
-  <h2>Proof Generation</h2>
   <div class="container">
+    <h1>Welcome, {{ session.name }}</h1>
+    <br>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+        <p class="{{ category }}">{{ message }}</p>
+        {% endfor %}
+        {% endwith %}
+        <br>
     <p>Enter array values for <b>a</b> and <b>b</b></p>
 
-    <input id="a0" type="number" placeholder="a[0]" />
-    <input id="a1" type="number" placeholder="a[1]" /><br>
+    <input id="a0" type="number" placeholder="a[0]"  required/>
+    <input id="a1" type="number" placeholder="a[1]" required/><br>
 
-    <input id="b00" type="number" placeholder="b[0][0]" />
-    <input id="b01" type="number" placeholder="b[0][1]" />
-    <input id="b10" type="number" placeholder="b[1][0]" />
-    <input id="b11" type="number" placeholder="b[1][1]" /><br>
+    <input id="b00" type="number" placeholder="b[0][0]" required/>
+    <input id="b01" type="number" placeholder="b[0][1]" required/>
+    <input id="b10" type="number" placeholder="b[1][0]" required/>
+    <input id="b11" type="number" placeholder="b[1][1]" required/><br>
 
     <button id="connectBtn">Connect Wallet</button>
     <p id="walletAddress"></p>
     <button id="getHashes" disabled>Get Hashes</button>
 
     <div class="output" id="output"></div>
+    <br>
+    <a href="/logout">Logout</a>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
@@ -181,7 +200,8 @@ async function getHashes() {
 
   } catch (err) {
     console.error(err);
-    document.getElementById("output").innerHTML = `<p style="color:red;">Error: ${err.message}</p>`;
+    document.getElementById("output").innerHTML = `<p style="color:red;">Failed to fetch hashes. Please check your input.</p>`;
+    
   }
 }
 

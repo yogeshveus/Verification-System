@@ -10,6 +10,6 @@ def consumer_dashboard():
 
     if session.get('role') != 'consumer':
         flash("Not a Consumer, unauthorized access", "error")
-        return redirect('/manufacturer')
+        return redirect('/login')
 
-    return render_template("consumer.html")
+    return render_template("consumer/consumer.html")

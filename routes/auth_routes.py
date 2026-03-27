@@ -7,7 +7,7 @@ auth = Blueprint('auth', __name__)
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'GET':
-        return render_template("register.html")  
+        return render_template("auth/register.html")  
 
     data = request.form
     print("FORM DATA:", data)
@@ -34,7 +34,7 @@ def register():
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
-        return render_template("login.html")  
+        return render_template("auth/login.html")  
 
     data = request.form
 

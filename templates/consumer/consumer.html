@@ -155,6 +155,7 @@
 <body>
   <div class="container">
     <h1>Welcome, {{ session.name }}</h1>
+    <br>
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% for category, message in messages %}
     <p class="{{ category }}">{{ message }}</p>
@@ -181,7 +182,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
-  <script src="{{ url_for('static', filename='newcon.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/newcon.js') }}"></script>
 </body>
 
 </html>

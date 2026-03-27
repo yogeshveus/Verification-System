@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manufacturer Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #1F2833;
+      color: #C5C6C7;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .top-section {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    h1 {
+      color: #66FCF1;
+      margin-bottom: 10px;
+      font-size: 2.2rem;
+      text-shadow: 0 0 10px rgba(102,252,241,0.4);
+    }
+
+    .flash-message {
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .success {
+      color: #ffffff;
+    }
+
+    .error {
+      color: #ff6b6b;
+    }
+
+    .dashboard-container {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .card {
+      background: rgba(69,162,158,0.12);
+      border: 1px solid rgba(102,252,241,0.25);
+      padding: 30px 25px;
+      border-radius: 18px;
+      width: 320px;
+      text-align: center;
+      box-shadow: 0 0 18px rgba(102,252,241,0.18);
+      transition: all 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 0 25px rgba(102,252,241,0.35);
+      background: rgba(69,162,158,0.18);
+    }
+
+    .card h2 {
+      color: #66FCF1;
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+    }
+
+    .card p {
+      color: #C5C6C7;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    .card a {
+      display: inline-block;
+      text-decoration: none;
+      background: #66FCF1;
+      color: #1F2833;
+      font-weight: bold;
+      padding: 12px 24px;
+      border-radius: 10px;
+      transition: 0.2s ease;
+    }
+
+    .card a:hover {
+      background: #45A29E;
+      color: #ffffff;
+    }
+
+    .logout {
+      margin-top: 45px;
+    }
+
+    .logout a {
+      text-decoration: none;
+      background: crimson;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: bold;
+      transition: 0.2s ease;
+    }
+
+    .logout a:hover {
+      background: darkred;
+    }
+
+    @media (max-width: 768px) {
+      .dashboard-container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .card {
+        width: 85%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Welcome + Flash -->
+  <div class="top-section">
+    <h1>Welcome, {{ session.name }}</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash-message {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
+
+  <div class="dashboard-container">
+    <div class="card">
+      <h2>Hash Generation</h2>
+      <p>
+        Generate hashes using the deployed hash generation smart contract.
+        This will help create verification data for your products.
+      </p>
+      <a href="/manufacturer/hash">Open Hash Page</a>
+    </div>
+
+    <div class="card">
+      <h2>Item Registration</h2>
+      <p>
+        Add product types, register new items, and manage stored product details
+        from your existing manufacturer page.
+      </p>
+      <a href="/manufacturer/item">Open Item Page</a>
+    </div>
+  </div>
+  <br>
+  <br>
+  <br>
+  <div class="logout">
+    <a href="/logout">Logout</a>
+  </div>
+
+</body>
+</html>

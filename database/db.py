@@ -16,13 +16,14 @@ def init_db():
     ''')
 
     cur.execute('''
-        CREATE TABLE IF NOT EXISTS product_types (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT UNIQUE,
-            created_by TEXT,
-            is_active INTEGER DEFAULT 1
-        )
-    ''')
+    CREATE TABLE IF NOT EXISTS product_types (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        created_by TEXT NOT NULL,
+        is_active INTEGER DEFAULT 1,
+        UNIQUE(name, created_by)
+    )
+''')
 
     cur.execute('''
         CREATE TABLE IF NOT EXISTS products (
