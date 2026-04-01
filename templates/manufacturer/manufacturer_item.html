@@ -394,114 +394,135 @@
             transform: none !important;
             box-shadow: none !important;
         }
+
+        .main-wrapper {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            justify-content: center;
+            flex-wrap: nowrap;
+            /* makes it responsive */
+        }
+
+        .main-wrapper .container {
+            flex: 1;
+            min-width: 400px;
+        }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <h1>Welcome, {{ session.name }}</h1>
+    <div class="main-wrapper">
+        <div class="left-column">
+            <div class="container">
+                <h1>Welcome, {{ session.name }}</h1>
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% for category, message in messages %}
-        <p class="{{ category }}">{{ message }}</p>
-        {% endfor %}
-        {% endwith %}
-
-        <button id="connectBtn">Connect MetaMask</button>
-        <p id="walletAddress"></p>
-
-        <hr>
-
-        <h3>Enter Item Details</h3>
-
-        <form method="POST" action="/manufacturer/item">
-            <input type="text" name="itemId" placeholder="Item ID" required>
-            <select name="productDropdown" id="productDropdown" style="color: #7d7d7d;">
-                <option value="" disabled selected>Product Type</option>
-                {% for p in products %}
-                <option value="{{ p }}">{{ p }}</option>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, message in messages %}
+                <p class="{{ category }}">{{ message }}</p>
                 {% endfor %}
-            </select>
-            <input type="text" name="metadataHash" placeholder="Metadata Hash" required>
-            <button type="submit" id="submitBtn">Submit</button>
-        </form>
+                {% endwith %}
 
-        <hr>
+                <button id="connectBtn">Connect MetaMask</button>
+                <p id="walletAddress"></p>
 
-        <h3>Add New Product Type</h3>
+                <hr>
 
-        <form method="POST" action="/add-product-type">
-            <input type="text" name="newProduct" placeholder="Enter new product type" required>
-            <button type="submit">Add Product Type</button>
-        </form>
+                <h3>Enter Item Details</h3>
 
-        <hr>
+                <form method="POST" action="/manufacturer/item">
+                    <input type="text" name="itemId" placeholder="Item ID" required>
+                    <select name="productDropdown" id="productDropdown" style="color: #7d7d7d;">
+                        <option value="" disabled selected>Product Type</option>
+                        {% for p in products %}
+                        <option value="{{ p }}">{{ p }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="text" name="metadataHash" placeholder="Metadata Hash" required>
+                    <button type="submit" id="submitBtn">Submit</button>
+                </form>
 
-        <h3>Product Types</h3>
+                <hr>
 
-        <table class="styled-table">
-            <tr>
-                <th>Product Type</th>
-                <th>Action</th>
-            </tr>
-            {% for p in products %}
-            <tr>
-                <td>{{ p }}</td>
-                <td>
-                    <form method="POST" action="/delete-product-type" style="display:inline;">
-                        <input type="hidden" name="product" value="{{ p }}">
-                        <button class="delete-btn" type="submit" onclick="return confirm('Delete this product type?')">
-                            Delete
-                        </button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
+                <h3>Add New Product Type</h3>
 
-    <div class="container wide">
-        <h3>Stored Products</h3>
+                <form method="POST" action="/add-product-type">
+                    <input type="text" name="newProduct" placeholder="Enter new product type" required>
+                    <button type="submit">Add Product Type</button>
+                </form>
 
-        <table class="styled-table">
-            <tr>
-                <th>Item ID</th>
-                <th>Product</th>
-                <th>Metadata Hash</th>
-                <th>Manufacturer</th>
-                <th>Send</th>
-                <th>Delete</th>
-            </tr>
+                <hr>
+            </div>
+        </div>
+        <div class="right-column">
+            <div class="container">
+                <h3>Product Types</h3>
 
-            {% for p in stored_products %}
-            <tr>
-                <td>{{ p[0] }}</td>
-                <td>{{ p[1] }}</td>
-                <td><span title="{{ p[2] }}">{{ p[2] }}</span></td>
-                <td>{{ p[3] }}</td>
-                <td>
-                    {% if p[4] == 1 %}
-                    <button class="send-btn sent-btn" disabled>
-                        Sent
-                    </button>
-                    {% else %}
-                    <button class="send-btn" id="sendBtn-{{ p[0] }}"
-                        onclick="sendStoredItemToBlockchain('{{ p[0] }}','{{ p[1] }}','{{ p[2] }}')">
-                        Send
-                    </button>
-                    {% endif %}
-                </td>
-                <td>
-                    <form method="POST" action="/delete-item" style="display:inline;">
-                        <input type="hidden" name="itemId" value="{{ p[0] }}">
-                        <button class="delete-btn" type="submit">Delete</button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
+                <table class="styled-table">
+                    <tr>
+                        <th>Product Type</th>
+                        <th>Action</th>
+                    </tr>
+                    {% for p in products %}
+                    <tr>
+                        <td>{{ p }}</td>
+                        <td>
+                            <form method="POST" action="/delete-product-type" style="display:inline;">
+                                <input type="hidden" name="product" value="{{ p }}">
+                                <button class="delete-btn" type="submit"
+                                    onclick="return confirm('Delete this product type?')">
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="container wide">
+                <h3>Stored Products</h3>
 
-        <a href="/logout">Logout</a>
+                <table class="styled-table">
+                    <tr>
+                        <th>Item ID</th>
+                        <th>Product</th>
+                        <th>Metadata Hash</th>
+                        <th>Manufacturer</th>
+                        <th>Send</th>
+                        <th>Delete</th>
+                    </tr>
+
+                    {% for p in stored_products %}
+                    <tr>
+                        <td>{{ p[0] }}</td>
+                        <td>{{ p[1] }}</td>
+                        <td><span title="{{ p[2] }}">{{ p[2] }}</span></td>
+                        <td>{{ p[3] }}</td>
+                        <td>
+                            {% if p[4] == 1 %}
+                            <button class="send-btn sent-btn" disabled>
+                                Sent
+                            </button>
+                            {% else %}
+                            <button class="send-btn" id="sendBtn-{{ p[0] }}"
+                                onclick="sendStoredItemToBlockchain('{{ p[0] }}','{{ p[1] }}','{{ p[2] }}')">
+                                Send
+                            </button>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <form method="POST" action="/delete-item" style="display:inline;">
+                                <input type="hidden" name="itemId" value="{{ p[0] }}">
+                                <button class="delete-btn" type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+
+                <a href="/logout">Logout</a>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
