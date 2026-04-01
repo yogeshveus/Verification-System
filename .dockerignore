@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.git
+.gitignore
+blockchain/
+design/
+node_modules/
+venv/
+.env/
+README.md

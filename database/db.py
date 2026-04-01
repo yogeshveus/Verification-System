@@ -31,7 +31,8 @@ def init_db():
             itemId INTEGER,
             product_type_id TEXT,
             metadataHash TEXT,
-            manufacturer_email TEXT
+            manufacturer_email TEXT,
+            sent INTEGER DEFAULT 0
         )
     ''')
 

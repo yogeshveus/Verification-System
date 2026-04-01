@@ -49,7 +49,7 @@ def get_all_products(email):
     cur = conn.cursor()
 
     cur.execute("""
-        SELECT p.itemId, p.product_type_id, p.metadataHash, p.manufacturer_email
+        SELECT p.itemId, p.product_type_id, p.metadataHash, p.manufacturer_email, p.sent
         FROM products p
         WHERE p.manufacturer_email = ?
     """, (email,))

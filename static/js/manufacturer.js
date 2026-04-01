@@ -53,7 +53,7 @@ async function registerItem() {
 
   let proof;
   try {
-    const response = await fetch("/static/proofData.json")
+    const response = await fetch("/static/generated/proofData.json")
 
     proof = await response.json();
   } catch (err) {
@@ -90,7 +90,7 @@ async function sendStoredItemToBlockchain(itemId, product, metadataHash) {
   }
 
   try {
-    const response = await fetch("/static/proofData.json")
+    const response = await fetch("/static/generated/proofData.json")
     const proof = await response.json();
 
     let { a, b, c, publicSignals } = proof;
@@ -114,6 +114,23 @@ async function sendStoredItemToBlockchain(itemId, product, metadataHash) {
     );
 
     await tx.wait();
+
+    await fetch("/mark-sent", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ itemId })
+    });
+
+    // Update button instantly
+    const btn = document.getElementById(`sendBtn-${itemId}`);
+    if (btn) {
+      btn.innerText = "Sent";
+      btn.disabled = true;
+      btn.classList.add("sent-btn");
+      btn.removeAttribute("onclick");
+    }
 
     alert(`Item ${itemId} sent to blockchain!`);
 

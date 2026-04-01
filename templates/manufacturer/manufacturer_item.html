@@ -376,9 +376,24 @@
         #productDropdown option[value=""] {
             color: #a0a0a0;
         }
+
         .styled-table th {
-    white-space: nowrap;
-}
+            white-space: nowrap;
+        }
+
+        .sent-btn {
+            background: #2E3B45 !important;
+            color: #8a8b8c !important;
+            cursor: not-allowed !important;
+            box-shadow: none !important;
+            transform: none !important;
+            opacity: 0.8;
+        }
+
+        .sent-btn:hover {
+            transform: none !important;
+            box-shadow: none !important;
+        }
     </style>
 </head>
 
@@ -465,10 +480,16 @@
                 <td><span title="{{ p[2] }}">{{ p[2] }}</span></td>
                 <td>{{ p[3] }}</td>
                 <td>
-                    <button class="send-btn"
+                    {% if p[4] == 1 %}
+                    <button class="send-btn sent-btn" disabled>
+                        Sent
+                    </button>
+                    {% else %}
+                    <button class="send-btn" id="sendBtn-{{ p[0] }}"
                         onclick="sendStoredItemToBlockchain('{{ p[0] }}','{{ p[1] }}','{{ p[2] }}')">
                         Send
                     </button>
+                    {% endif %}
                 </td>
                 <td>
                     <form method="POST" action="/delete-item" style="display:inline;">

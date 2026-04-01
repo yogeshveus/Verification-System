@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HashTest Contract Interaction</title>
-<style>
+  <style>
     body {
       font-family: Arial, sans-serif;
       background: #1F2833;
@@ -14,17 +15,20 @@
       align-items: center;
       padding: 40px;
     }
+
     h2 {
       color: #66FCF1;
     }
+
     .container {
-      background: rgba(69,162,158,0.1);
+      background: rgba(69, 162, 158, 0.1);
       padding: 20px;
       border-radius: 16px;
       width: 400px;
       text-align: center;
-      box-shadow: 0 0 15px rgba(102,252,241,0.3);
+      box-shadow: 0 0 15px rgba(102, 252, 241, 0.3);
     }
+
     input {
       width: 80%;
       padding: 8px;
@@ -37,6 +41,7 @@
       color: #1F2833;
       font-weight: bold;
     }
+
     button {
       background: #66FCF1;
       color: #1F2833;
@@ -48,54 +53,58 @@
       margin-top: 10px;
       transition: 0.2s;
     }
+
     button:hover {
       background: #45A29E;
       color: #C5C6C7;
     }
+
     .output {
       margin-top: 20px;
-      background: rgba(69,162,158,0.2);
+      background: rgba(69, 162, 158, 0.2);
       padding: 10px;
       border-radius: 10px;
       word-break: break-all;
       color: #C5C6C7;
     }
+
     #walletAddress {
       font-size: 0.9em;
       color: #66FCF1;
       margin-top: 10px;
     }
 
-        a {
-            color: #66FCF1;
-            text-decoration: none;
-            font-weight: bold;
-        }
+    a {
+      color: #66FCF1;
+      text-decoration: none;
+      font-weight: bold;
+    }
 
-        a:hover {
-            text-decoration: underline;
-        }
+    a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
+
 <body>
   <div class="container">
     <h1>Welcome, {{ session.name }}</h1>
     <br>
     {% with messages = get_flashed_messages(with_categories=true) %}
-        {% for category, message in messages %}
-        <p class="{{ category }}">{{ message }}</p>
-        {% endfor %}
-        {% endwith %}
-        <br>
+    {% for category, message in messages %}
+    <p class="{{ category }}">{{ message }}</p>
+    {% endfor %}
+    {% endwith %}
+    <br>
     <p>Enter array values for <b>a</b> and <b>b</b></p>
 
-    <input id="a0" type="number" placeholder="a[0]"  required/>
-    <input id="a1" type="number" placeholder="a[1]" required/><br>
+    <input id="a0" type="number" placeholder="a[0]" required />
+    <input id="a1" type="number" placeholder="a[1]" required /><br>
 
-    <input id="b00" type="number" placeholder="b[0][0]" required/>
-    <input id="b01" type="number" placeholder="b[0][1]" required/>
-    <input id="b10" type="number" placeholder="b[1][0]" required/>
-    <input id="b11" type="number" placeholder="b[1][1]" required/><br>
+    <input id="b00" type="number" placeholder="b[0][0]" required />
+    <input id="b01" type="number" placeholder="b[0][1]" required />
+    <input id="b10" type="number" placeholder="b[1][0]" required />
+    <input id="b11" type="number" placeholder="b[1][1]" required /><br>
 
     <button id="connectBtn">Connect Wallet</button>
     <p id="walletAddress"></p>
@@ -143,68 +152,83 @@
       }
     }
 
-async function getHashes() {
-  if (!contract) {
-    alert("Please connect your wallet first.");
-    return;
-  }
+    async function getHashes() {
+      if (!contract) {
+        alert("Please connect your wallet first.");
+        return;
+      }
 
-  const a = [
-    parseInt(document.getElementById("a0").value),
-    parseInt(document.getElementById("a1").value)
-  ];
-  const b = [
-    [
-      parseInt(document.getElementById("b00").value),
-      parseInt(document.getElementById("b01").value)
-    ],
-    [
-      parseInt(document.getElementById("b10").value),
-      parseInt(document.getElementById("b11").value)
-    ]
-  ];
+      const a = [
+        parseInt(document.getElementById("a0").value),
+        parseInt(document.getElementById("a1").value)
+      ];
+      const b = [
+        [
+          parseInt(document.getElementById("b00").value),
+          parseInt(document.getElementById("b01").value)
+        ],
+        [
+          parseInt(document.getElementById("b10").value),
+          parseInt(document.getElementById("b11").value)
+        ]
+      ];
 
-  try {
-    const result = await contract.getHashes(a, b);
+      try {
+        const result = await contract.getHashes(a, b);
 
-    const c = [
-      result[0].toString(),
-      "0" 
-    ];
-    const publicSignals = [result[2].toString()];
+        const c = [
+          result[0].toString(),
+          "0"
+        ];
+        const publicSignals = [result[2].toString()];
 
-    const outputData = {
-      a: [a[0].toString(), a[1].toString()],
-      b: [
-        [b[0][0].toString(), b[0][1].toString()],
-        [b[1][0].toString(), b[1][1].toString()]
-      ],
-      c: c,
-      publicSignals: publicSignals
-    };
+        const outputData = {
+          a: [a[0].toString(), a[1].toString()],
+          b: [
+            [b[0][0].toString(), b[0][1].toString()],
+            [b[1][0].toString(), b[1][1].toString()]
+          ],
+          c: c,
+          publicSignals: publicSignals
+        };
 
-    document.getElementById("output").innerHTML = `
+        document.getElementById("output").innerHTML = `
       <p><b>Hash 1 (Proof Signal C):</b> ${result[0].toString()}</p>
       <p><b>Hash 2 (Intermediate Hash):</b> ${result[1].toString()}</p>
       <p><b>Hash 3 (Public Signal):</b> ${result[2].toString()}</p>
       <p style="color:#66FCF1;margin-top:10px;">JSON file generated</p>
     `;
 
-    const blob = new Blob([JSON.stringify(outputData, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const aTag = document.createElement("a");
-    aTag.href = url;
-    aTag.download = "proofData.json";
-    aTag.click();
-    URL.revokeObjectURL(url);
+        const response = await fetch("/save-proof-json", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(outputData)
+        });
 
-  } catch (err) {
-    console.error(err);
-    document.getElementById("output").innerHTML = `<p style="color:red;">Failed to fetch hashes. Please check your input.</p>`;
-    
-  }
-}
+        const saveResult = await response.json();
+
+        if (saveResult.success) {
+          document.getElementById("output").innerHTML += `
+    <p style="color:#66FCF1;margin-top:10px;">JSON saved successfully</p>
+    <a href="${saveResult.file_url}" download style="color:#66FCF1;">Download JSON File</a>
+  `;
+        } else {
+          document.getElementById("output").innerHTML += `
+    <p style="color:red;">Failed to save JSON file.</p>
+  `;
+        }
+
+
+      } catch (err) {
+        console.error(err);
+        document.getElementById("output").innerHTML = `<p style="color:red;">Failed to fetch hashes. Please check your input.</p>`;
+
+      }
+    }
 
   </script>
 </body>
+
 </html>

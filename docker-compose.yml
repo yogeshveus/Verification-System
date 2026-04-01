@@ -1,12 +1,13 @@
-version: '3.9'
+version: "3.9"
 
 services:
-  zkp-app:
+  web:
     build: .
-    container_name: zkp-container
+    container_name: zkp_flask_app
+    restart: always
     ports:
-      - "3000:3000"       
+      - "5000:5000"
     volumes:
-      - .:/app            
-    command: ["node", "server.js"]  
-    restart: unless-stopped
+      - ./database:/app/database
+    env_file:
+      - .env

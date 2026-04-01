@@ -46,7 +46,7 @@ async function verifyItem() {
     // Load a and b from JSON
     let proof;
     try {
-        const response = await fetch("/static/proofData.json");
+        const response = await fetch("/static/generated/proofData.json");
         proof = await response.json();
     } catch (err) {
         console.error("Failed to load proof.json:", err);

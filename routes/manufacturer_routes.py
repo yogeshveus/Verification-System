@@ -1,7 +1,9 @@
-from flask import Blueprint, request, render_template, session, redirect, flash, get_flashed_messages
+from flask import Blueprint, request, render_template, session, redirect, flash, get_flashed_messages, jsonify, current_app
 from services.product_service import get_product_types, save_product, add_product_type, get_all_products
 import sqlite3
 from config import DATABASE
+import os
+import json
 
 manufacturer = Blueprint('manufacturer', __name__)
 
@@ -126,3 +128,39 @@ def manufacturer_hash():
         return redirect('/login')
 
     return render_template("manufacturer/manufacturer_hash.html")
+
+@manufacturer.route('/save-proof-json', methods=['POST'])
+def save_proof_json():
+    if not session.get('user_email'):
+        return jsonify({"success": False, "message": "Unauthorized"}), 401
+
+    data = request.get_json()
+
+    output_folder = os.path.join(current_app.root_path, "static", "generated")
+    os.makedirs(output_folder, exist_ok=True)
+
+    filename = "proofData.json"
+    file_path = os.path.join(output_folder, filename)
+
+    with open(file_path, "w") as f:
+        json.dump(data, f, indent=2)
+
+    return jsonify({
+        "success": True,
+        "message": "JSON saved successfully",
+        "file_url": f"/static/generated/{filename}"
+    })
+
+
+@manufacturer.route('/mark-sent', methods=['POST'])
+def mark_sent():
+    item_id = request.json.get("itemId")
+
+    conn = sqlite3.connect(DATABASE)
+    cur = conn.cursor()
+
+    cur.execute("UPDATE products SET sent = 1 WHERE itemId = ?", (item_id,))
+    conn.commit()
+    conn.close()
+
+    return {"success": True}

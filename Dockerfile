@@ -1,11 +1,18 @@
-FROM node:18
+FROM python:3.11-slim
 
 WORKDIR /app
 
-COPY package.json ./
-RUN npm install
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD ["node", "server.js"]
+RUN mkdir -p /app/database
 
+EXPOSE 5000
+
+CMD ["python", "app.py"]
