@@ -4,9 +4,10 @@ import os
 
 from app import create_app
 from config import TEST_DATABASE
+from database.db import init_db
 
 
-class AddProductIntegrationTest(unittest.TestCase):
+class RegressionDeleteProductTest(unittest.TestCase):
 
     def setUp(self):
         if os.path.exists(TEST_DATABASE):
@@ -27,42 +28,33 @@ class AddProductIntegrationTest(unittest.TestCase):
         conn.row_factory = sqlite3.Row
         return conn
 
-    def login_manufacturer_session(self):
+    def test_delete_product_still_works(self):
+        conn = self.get_db_connection()
+        cur = conn.cursor()
+        cur.execute("""
+            INSERT INTO products (itemId, product_type_id, metadataHash, manufacturer_email)
+            VALUES (?, ?, ?, ?)
+        """, (202, 'Bottle', '0x123', 'maker@example.com'))
+        conn.commit()
+        conn.close()
+
         with self.client.session_transaction() as sess:
             sess['user_email'] = 'maker@example.com'
             sess['role'] = 'manufacturer'
             sess['name'] = 'Maker'
 
-    def test_add_product(self):
-        self.login_manufacturer_session()
-
-        # Insert product type first
-        conn = self.get_db_connection()
-        cur = conn.cursor()
-        cur.execute(
-            "INSERT INTO product_types (name, created_by, is_active) VALUES (?, ?, ?)",
-            ('Baby Formula', 'maker@example.com', 1)
-        )
-        conn.commit()
-        conn.close()
-
-        response = self.client.post('/manufacturer/item', data={
-            'itemId': '101',
-            'productDropdown': 'Baby Formula',
-            'metadataHash': 'abc123hash'
-        }, follow_redirects=False)
+        response = self.client.post('/delete-item', data={'itemId': '202'}, follow_redirects=False)
 
         self.assertEqual(response.status_code, 302)
         self.assertIn('/manufacturer/item', response.location)
 
         conn = self.get_db_connection()
         cur = conn.cursor()
-        cur.execute("SELECT * FROM products WHERE itemId=?", ('101',))
+        cur.execute("SELECT * FROM products WHERE itemId=?", (202,))
         product = cur.fetchone()
         conn.close()
 
-        self.assertIsNotNone(product)
-        self.assertEqual(product['metadataHash'], 'abc123hash')
+        self.assertIsNone(product)
 
 
 if __name__ == '__main__':

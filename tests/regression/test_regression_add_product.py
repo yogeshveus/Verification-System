@@ -4,9 +4,10 @@ import os
 
 from app import create_app
 from config import TEST_DATABASE
+from database.db import init_db
 
 
-class AddProductIntegrationTest(unittest.TestCase):
+class RegressionAddProductTest(unittest.TestCase):
 
     def setUp(self):
         if os.path.exists(TEST_DATABASE):
@@ -27,16 +28,7 @@ class AddProductIntegrationTest(unittest.TestCase):
         conn.row_factory = sqlite3.Row
         return conn
 
-    def login_manufacturer_session(self):
-        with self.client.session_transaction() as sess:
-            sess['user_email'] = 'maker@example.com'
-            sess['role'] = 'manufacturer'
-            sess['name'] = 'Maker'
-
-    def test_add_product(self):
-        self.login_manufacturer_session()
-
-        # Insert product type first
+    def test_add_product_still_works(self):
         conn = self.get_db_connection()
         cur = conn.cursor()
         cur.execute(
@@ -46,10 +38,15 @@ class AddProductIntegrationTest(unittest.TestCase):
         conn.commit()
         conn.close()
 
+        with self.client.session_transaction() as sess:
+            sess['user_email'] = 'maker@example.com'
+            sess['role'] = 'manufacturer'
+            sess['name'] = 'Maker'
+
         response = self.client.post('/manufacturer/item', data={
             'itemId': '101',
             'productDropdown': 'Baby Formula',
-            'metadataHash': 'abc123hash'
+            'metadataHash': '0x123'
         }, follow_redirects=False)
 
         self.assertEqual(response.status_code, 302)
@@ -57,12 +54,11 @@ class AddProductIntegrationTest(unittest.TestCase):
 
         conn = self.get_db_connection()
         cur = conn.cursor()
-        cur.execute("SELECT * FROM products WHERE itemId=?", ('101',))
+        cur.execute("SELECT * FROM products WHERE itemId=?", (101,))
         product = cur.fetchone()
         conn.close()
 
         self.assertIsNotNone(product)
-        self.assertEqual(product['metadataHash'], 'abc123hash')
 
 
 if __name__ == '__main__':

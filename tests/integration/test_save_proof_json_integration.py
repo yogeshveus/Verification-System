@@ -1,10 +1,9 @@
 import unittest
 import os
 import json
-
+import shutil
 from app import create_app
 from config import TEST_DATABASE
-from database.db import init_db
 
 
 class SaveProofJsonIntegrationTest(unittest.TestCase):
@@ -19,11 +18,25 @@ class SaveProofJsonIntegrationTest(unittest.TestCase):
         })
         self.client = self.app.test_client()
 
-        init_db(TEST_DATABASE)
-
         self.proof_path = os.path.join(self.app.root_path, "static", "generated", "proofData.json")
+        self.backup_path = self.proof_path + ".backup"
+
+        os.makedirs(os.path.dirname(self.proof_path), exist_ok=True)
+
+        # Backup real proofData.json if it exists
+        if os.path.exists(self.proof_path):
+            shutil.copy2(self.proof_path, self.backup_path)
+
+
+    def tearDown(self):
+        if os.path.exists(TEST_DATABASE):
+            os.remove(TEST_DATABASE)
+
         if os.path.exists(self.proof_path):
             os.remove(self.proof_path)
+
+        if os.path.exists(self.backup_path):
+            shutil.move(self.backup_path, self.proof_path)
 
     def test_save_proof_json(self):
         with self.client.session_transaction() as sess:

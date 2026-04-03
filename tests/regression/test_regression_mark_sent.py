@@ -7,7 +7,7 @@ from config import TEST_DATABASE
 from database.db import init_db
 
 
-class AddProductTypeIntegrationTest(unittest.TestCase):
+class RegressionMarkSentTest(unittest.TestCase):
 
     def setUp(self):
         if os.path.exists(TEST_DATABASE):
@@ -19,8 +19,6 @@ class AddProductTypeIntegrationTest(unittest.TestCase):
         })
         self.client = self.app.test_client()
 
-        init_db(TEST_DATABASE)
-
     def tearDown(self):
         if os.path.exists(TEST_DATABASE):
             os.remove(TEST_DATABASE)
@@ -30,27 +28,28 @@ class AddProductTypeIntegrationTest(unittest.TestCase):
         conn.row_factory = sqlite3.Row
         return conn
 
-    def test_add_product_type(self):
-        with self.client.session_transaction() as sess:
-            sess['user_email'] = 'maker@example.com'
-            sess['role'] = 'manufacturer'
-            sess['name'] = 'Maker'
+    def test_mark_sent_still_works(self):
+        conn = self.get_db_connection()
+        cur = conn.cursor()
+        cur.execute("""
+            INSERT INTO products (itemId, product_type_id, metadataHash, manufacturer_email, sent)
+            VALUES (?, ?, ?, ?, ?)
+        """, (303, 'Diapers', '0x123', 'maker@example.com', 0))
+        conn.commit()
+        conn.close()
 
-        response = self.client.post('/add-product-type', data={
-            'newProduct': 'Milk Powder'
-        }, follow_redirects=False)
+        response = self.client.post('/mark-sent', json={'itemId': 303})
 
-        self.assertEqual(response.status_code, 302)
-        self.assertIn('/manufacturer/item', response.location)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json['success'], True)
 
         conn = self.get_db_connection()
         cur = conn.cursor()
-        cur.execute("SELECT * FROM product_types WHERE name=? AND created_by=?", ('Milk Powder', 'maker@example.com'))
+        cur.execute("SELECT * FROM products WHERE itemId=?", (303,))
         product = cur.fetchone()
         conn.close()
 
-        self.assertIsNotNone(product)
-        self.assertEqual(product['name'], 'Milk Powder')
+        self.assertEqual(product['sent'], 1)
 
 
 if __name__ == '__main__':

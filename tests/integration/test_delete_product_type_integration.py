@@ -21,6 +21,10 @@ class DeleteProductTypeIntegrationTest(unittest.TestCase):
 
         init_db(TEST_DATABASE)
 
+    def tearDown(self):
+        if os.path.exists(TEST_DATABASE):
+            os.remove(TEST_DATABASE)
+
     def get_db_connection(self):
         conn = sqlite3.connect(TEST_DATABASE)
         conn.row_factory = sqlite3.Row

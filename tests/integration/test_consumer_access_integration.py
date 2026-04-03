@@ -20,6 +20,10 @@ class ConsumerAccessIntegrationTest(unittest.TestCase):
 
         init_db(TEST_DATABASE)
 
+    def tearDown(self):
+        if os.path.exists(TEST_DATABASE):
+            os.remove(TEST_DATABASE)
+
     def test_consumer_access_without_login(self):
         response = self.client.get('/consumer', follow_redirects=False)
 

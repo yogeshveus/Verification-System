@@ -18,6 +18,10 @@ class ConsumerLoginIntegrationTest(unittest.TestCase):
         })
         self.client = self.app.test_client()
 
+    def tearDown(self):
+        if os.path.exists(TEST_DATABASE):
+            os.remove(TEST_DATABASE)
+
         init_db(TEST_DATABASE)
     def test_login_consumer(self):
         self.client.post('/register', data={

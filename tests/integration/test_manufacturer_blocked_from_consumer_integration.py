@@ -20,6 +20,10 @@ class ManufacturerBlockedConsumerIntegrationTest(unittest.TestCase):
 
         init_db(TEST_DATABASE)
 
+    def tearDown(self):
+        if os.path.exists(TEST_DATABASE):
+            os.remove(TEST_DATABASE)
+
     def test_manufacturer_cannot_access_consumer(self):
         with self.client.session_transaction() as sess:
             sess['user_email'] = 'manufacturer@example.com'

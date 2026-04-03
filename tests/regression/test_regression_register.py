@@ -1,4 +1,5 @@
 import unittest
+import sqlite3
 import os
 
 from app import create_app
@@ -6,7 +7,7 @@ from config import TEST_DATABASE
 from database.db import init_db
 
 
-class InvalidLoginIntegrationTest(unittest.TestCase):
+class RegressionRegisterTest(unittest.TestCase):
 
     def setUp(self):
         if os.path.exists(TEST_DATABASE):
@@ -18,28 +19,35 @@ class InvalidLoginIntegrationTest(unittest.TestCase):
         })
         self.client = self.app.test_client()
 
-        init_db(TEST_DATABASE)
-
     def tearDown(self):
         if os.path.exists(TEST_DATABASE):
             os.remove(TEST_DATABASE)
 
-    def test_invalid_login(self):
-        self.client.post('/register', data={
-            'name': 'David',
-            'email': 'david@example.com',
+    def get_db_connection(self):
+        conn = sqlite3.connect(TEST_DATABASE)
+        conn.row_factory = sqlite3.Row
+        return conn
+
+    def test_register_user_still_works(self):
+        response = self.client.post('/register', data={
+            'name': 'Alice',
+            'email': 'alice@example.com',
             'password': 'Hello@123',
             'role': 'consumer'
-        })
-
-        response = self.client.post('/login', data={
-            'email': 'david@example.com',
-            'password': 'wrongpassword'
         }, follow_redirects=False)
 
         self.assertEqual(response.status_code, 302)
         self.assertIn('/login', response.location)
 
+        conn = self.get_db_connection()
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM users WHERE email=?", ('alice@example.com',))
+        user = cur.fetchone()
+        conn.close()
 
+        self.assertIsNotNone(user)
+        self.assertEqual(user['name'], 'Alice')
+
+    
 if __name__ == '__main__':
     unittest.main()
