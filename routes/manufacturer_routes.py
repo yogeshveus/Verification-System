@@ -37,9 +37,7 @@ def manufacturer_page():
         return redirect('/login')
     email = session.get('user_email')
     products = get_product_types(session.get('user_email'))
-    print("Session email:", email)
     stored_products = get_all_products(email)
-    print("stored products:", stored_products)
     if request.method == 'GET':
         return render_template("manufacturer/manufacturer_item.html", products=products, stored_products=stored_products)
 
@@ -74,7 +72,8 @@ def delete_item():
         return redirect('/login')
     item_id = request.form['itemId']
 
-    conn = sqlite3.connect(DATABASE)
+    #conn = sqlite3.connect(DATABASE)
+    conn = sqlite3.connect(current_app.config['DATABASE'])
     cursor = conn.cursor()
 
     cursor.execute("DELETE FROM products WHERE itemId = ?", (item_id,))
@@ -91,7 +90,8 @@ def delete_product_type():
         return redirect('/login')
     product = request.form['product']
 
-    conn = sqlite3.connect(DATABASE)
+    #conn = sqlite3.connect(DATABASE)
+    conn = sqlite3.connect(current_app.config['DATABASE'])
     cursor = conn.cursor()
 
     cursor.execute(
@@ -156,7 +156,8 @@ def save_proof_json():
 def mark_sent():
     item_id = request.json.get("itemId")
 
-    conn = sqlite3.connect(DATABASE)
+    #conn = sqlite3.connect(DATABASE)
+    conn = sqlite3.connect(current_app.config['DATABASE'])
     cur = conn.cursor()
 
     cur.execute("UPDATE products SET sent = 1 WHERE itemId = ?", (item_id,))

@@ -1,7 +1,8 @@
 from models.user_model import create_user, get_user
 from database.db import get_connection
-from werkzeug.security import check_password_hash
-from werkzeug.security import generate_password_hash
+from flask import current_app
+from werkzeug.security import check_password_hash, generate_password_hash
+
 
 def register_user(name, email, password, role):
     hashed_password = generate_password_hash(password)
@@ -18,7 +19,9 @@ def login_user(email, password):
 
 def get_user_by_email(email):
 
-    conn = get_connection()
+    #conn = get_connection()
+    conn = get_connection(current_app.config['DATABASE'])
+    
     cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM users WHERE email=?", (email,))

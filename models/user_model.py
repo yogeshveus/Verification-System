@@ -1,7 +1,9 @@
 from database.db import get_connection
+from flask import current_app
 
 def create_user(name, email, password, role):
-    conn = get_connection()
+    #conn = get_connection()
+    conn = get_connection(current_app.config['DATABASE'])
     cur = conn.cursor()
 
     try:
@@ -18,7 +20,8 @@ def create_user(name, email, password, role):
 
 
 def get_user(email, password):
-    conn = get_connection()
+    #conn = get_connection()
+    conn = get_connection(current_app.config['DATABASE'])
     cur = conn.cursor()
 
     cur.execute(

@@ -1,6 +1,8 @@
 from flask import Blueprint, request, render_template, session, redirect, flash, get_flashed_messages
 from services.auth_service import register_user, login_user
 from services.auth_service import get_user_by_email
+import re
+
 
 auth = Blueprint('auth', __name__)
 
@@ -10,8 +12,7 @@ def register():
         return render_template("auth/register.html")  
 
     data = request.form
-    print("FORM DATA:", data)
-
+    errors = []
     name = data.get('name')
     email = data.get('email')
     password = data.get('password')
@@ -19,6 +20,24 @@ def register():
 
     if not all([name, email, password, role]):
         flash("All fields are required", "error")
+        return redirect('/register')
+    
+    
+    if len(password) < 8:
+        errors.append("Password must be at least 8 characters long")
+
+    if not re.search(r'[A-Z]', password):
+        errors.append("Password must include at least one uppercase letter")
+
+    if not re.search(r'\d', password):
+        errors.append("Password must include at least one number")
+
+    if not re.search(r'[@$!%*?&^#()_+\-=\[\]{};:\'",.<>\/\\|`~]', password):
+        errors.append("Password must include at least one special character")
+
+    if errors:
+        for error in errors:
+            flash(error, "error")
         return redirect('/register')
     
     existing_user = get_user_by_email(email)  

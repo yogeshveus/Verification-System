@@ -1,8 +1,8 @@
 import sqlite3
 from config import DATABASE
 
-def init_db():
-    conn = get_connection()
+def init_db(db_path=DATABASE):
+    conn = get_connection(db_path)
     cur = conn.cursor()
 
     cur.execute('''
@@ -39,7 +39,8 @@ def init_db():
     conn.commit()
     conn.close()
 
-def get_connection():
-    conn = sqlite3.connect(DATABASE)
-    conn.row_factory = sqlite3.Row  
+
+def get_connection(db_path=DATABASE):
+    conn = sqlite3.connect(db_path)
+    conn.row_factory = sqlite3.Row
     return conn
