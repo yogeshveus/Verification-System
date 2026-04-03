@@ -4,7 +4,7 @@
 <head>
     <title>Login</title>
     <style>
-        body {
+        /*body {
             font-family: 'Poppins', sans-serif;
             background-color: #1F2833;
             display: flex;
@@ -13,6 +13,57 @@
             height: 100vh;
             margin: 0;
             color: #C5C6C7;
+        }*/
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0B0C10, #1F2833, #28414c);
+            background-size: 400% 400%;
+            animation: gradientMove 7s ease infinite;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            color: #C5C6C7;
+        }
+
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: -1;
+        }
+
+        body::before {
+            background: #1b524f;
+            top: 10%;
+            left: 10%;
+        }
+
+        body::after {
+            background: #275d5a;
+            bottom: 10%;
+            right: 10%;
         }
 
         .container {
@@ -73,7 +124,6 @@
             transform: scale(1.05);
             box-shadow: 0 0 25px rgba(102, 252, 241, 0.6);
         }
-
         a {
             color: #66FCF1;
             text-decoration: none;

@@ -16,7 +16,7 @@
       text-decoration: underline;
     }
 
-    body {
+    /*body {
       font-family: 'Poppins', sans-serif;
       background-color: #1F2833;
       display: flex;
@@ -26,6 +26,59 @@
       height: 100vh;
       margin: 0;
       color: #C5C6C7;
+    }*/
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0B0C10, #1F2833, #28414c);
+      background-size: 400% 400%;
+      animation: gradientMove 12s ease infinite;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      color: #C5C6C7;
+    }
+
+    /* Smooth animated gradient */
+    @keyframes gradientMove {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      filter: blur(100px);
+      z-index: -1;
+    }
+
+    body::before {
+      background: #66FCF1;
+      top: 10%;
+      left: 10%;
+    }
+
+    body::after {
+      background: #45A29E;
+      bottom: 10%;
+      right: 10%;
     }
 
     h1 {
@@ -47,6 +100,19 @@
       border: 1px solid rgba(69, 162, 158, 0.3);
       transition: box-shadow 0.4s ease;
     }
+
+    /*.container {
+      background: rgba(11, 12, 16, 0.6);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+
+      padding: 40px 50px;
+      border-radius: 12px;
+      border: 1px solid rgba(102, 252, 241, 0.2);
+      min-width: 380px;
+      box-shadow: 0 0 30px rgba(102, 252, 241, 0.1);
+      transition: box-shadow 0.4s ease;
+    }*/
 
     .container:hover {
       box-shadow: 0 0 35px rgba(102, 252, 241, 0.25);
@@ -123,6 +189,7 @@
     #walletAddress {
       margin-top: 10px;
       font-weight: bold;
+      word-break: break-all;
       color: #66FCF1;
       text-shadow: 0 0 6px rgba(102, 252, 241, 0.3);
     }
@@ -164,7 +231,7 @@
 
     <button id="connectBtn">Connect MetaMask</button>
     <p id="walletAddress"></p>
-
+    <br>
     <p>Item ID:</p>
     <input type="number" id="verifyItemId" placeholder="Item ID">
 
@@ -182,7 +249,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
-  <script src="{{ url_for('static', filename='js/newcon.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/consumer.js') }}"></script>
 </body>
 
 </html>
