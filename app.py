@@ -17,7 +17,6 @@ def create_app(test_config=None):
     app.register_blueprint(auth)
     app.register_blueprint(manufacturer)
     app.register_blueprint(consumer)
-
     init_db(app.config['DATABASE'])
     return app
 

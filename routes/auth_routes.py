@@ -3,8 +3,14 @@ from services.auth_service import register_user, login_user
 from services.auth_service import get_user_by_email
 import re
 
+from flask import Blueprint, render_template, redirect, url_for
 
 auth = Blueprint('auth', __name__)
+
+@auth.route("/")
+def root():
+    return redirect(url_for("auth.login"))
+
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():

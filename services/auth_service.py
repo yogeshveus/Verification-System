@@ -14,6 +14,8 @@ def login_user(email, password):
     if user:
         if check_password_hash(user[3], password): 
             return {"status": True, "role": user[4]}
+    else:
+        return {"status": False}
 
     return {"status": False}
 

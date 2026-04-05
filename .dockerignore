@@ -11,3 +11,6 @@ node_modules/
 venv/
 .env/
 README.md
+mutatest_routes_report_new
+mutatest_routes_report_old
+mutatest_services_report
