@@ -230,7 +230,7 @@ docker-compose down
 - Docker build and run success:  
   ![Docker Build & Run](/design/old_docker/docker_run.png)
 - App running on localhost:  
-  ![App on Localhost](/design/old_docker/app_run.png)
+  ![App on Localhost](/design/old_docker/new_app_run.png)
 - GitHub branches showing feature branch:  
   ![GitHub Branches](/design/old_docker/branches.png)
 
