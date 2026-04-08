@@ -196,8 +196,8 @@ docker-compose --version
 
 ### 2. Clone the Repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/zkp-system.git
-cd zkp-system
+git clone [https://github.com/yogeshveus/Verification-System.git]
+cd Verification-System
 ```
 
 ### 3. Build and Run Docker Container
@@ -207,16 +207,15 @@ docker-compose up --build
 The docker-compose.yml will:
 -Build the Docker image from the Dockerfile
 -Start the container named zkp-container
--Map port 3000 from container to host
-If successful, you should see:
-`zkp-container | ZKP Docker container running successfully!`
+-Map port 5000 from container to host
+If successful, you should see the terminal showing the app starting successfully.
+
 ### 4. Access the App in Browser
 Open your browser and navigate to:
 ```bash
-http://localhost:3000
+http://localhost:5000
 ```
-You should see:
-`ZKP Docker container running successfully!`
+You should be redirected to the login page.
 
 ### 5. Stop the Container
 ```bash
