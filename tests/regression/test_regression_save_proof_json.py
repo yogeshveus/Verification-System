@@ -81,7 +81,6 @@ class RegressionSaveProofJsonTest(unittest.TestCase):
 
         os.makedirs(os.path.dirname(self.proof_path), exist_ok=True)
 
-        # Backup real proofData.json if it exists
         if os.path.exists(self.proof_path):
             shutil.copy2(self.proof_path, self.backup_path)
 
@@ -89,11 +88,9 @@ class RegressionSaveProofJsonTest(unittest.TestCase):
         if os.path.exists(TEST_DATABASE):
             os.remove(TEST_DATABASE)
 
-        # Remove test-created proofData.json
         if os.path.exists(self.proof_path):
             os.remove(self.proof_path)
 
-        # Restore original proofData.json
         if os.path.exists(self.backup_path):
             shutil.move(self.backup_path, self.proof_path)
 

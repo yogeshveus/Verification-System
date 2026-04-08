@@ -196,7 +196,7 @@ docker-compose --version
 
 ### 2. Clone the Repository
 ```bash
-git clone [https://github.com/yogeshveus/Verification-System.git]
+git clone https://github.com/yogeshveus/Verification-System.git
 cd Verification-System
 ```
 

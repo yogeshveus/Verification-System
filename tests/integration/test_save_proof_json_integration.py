@@ -23,7 +23,6 @@ class SaveProofJsonIntegrationTest(unittest.TestCase):
 
         os.makedirs(os.path.dirname(self.proof_path), exist_ok=True)
 
-        # Backup real proofData.json if it exists
         if os.path.exists(self.proof_path):
             shutil.copy2(self.proof_path, self.backup_path)
 

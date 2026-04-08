@@ -36,7 +36,6 @@ class AddProductIntegrationTest(unittest.TestCase):
     def test_add_product(self):
         self.login_manufacturer_session()
 
-        # Insert product type first
         conn = self.get_db_connection()
         cur = conn.cursor()
         cur.execute(
