@@ -1,10 +1,9 @@
 import unittest
 import os
 
+from database.db import init_db
 from app import create_app
 from config import TEST_DATABASE
-from database.db import init_db
-
 
 class ConsumerLoginIntegrationTest(unittest.TestCase):
 

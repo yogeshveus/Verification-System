@@ -4,8 +4,6 @@ import os
 
 from app import create_app
 from config import TEST_DATABASE
-from database.db import init_db
-
 
 class RegressionAddProductTest(unittest.TestCase):
 

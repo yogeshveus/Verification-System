@@ -3,9 +3,8 @@ import sqlite3
 import os
 
 from app import create_app
-from config import TEST_DATABASE
 from database.db import init_db
-
+from config import TEST_DATABASE
 
 class MarkSentIntegrationTest(unittest.TestCase):
 

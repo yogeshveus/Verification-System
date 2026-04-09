@@ -1,6 +1,6 @@
 import unittest
-import sqlite3
 import os
+import sqlite3
 
 from app import create_app
 from config import TEST_DATABASE

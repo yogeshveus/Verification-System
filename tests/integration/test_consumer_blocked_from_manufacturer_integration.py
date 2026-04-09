@@ -1,11 +1,10 @@
 import unittest
-import os
 
 from app import create_app
 from config import TEST_DATABASE
 from database.db import init_db
 
-
+import os
 class ConsumerBlockedManufacturerIntegrationTest(unittest.TestCase):
 
     def setUp(self):
