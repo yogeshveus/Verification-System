@@ -43,3 +43,6 @@ jobs:
     - name: Run Mutation Testing for services
       run: |
         mutatest -s services -t "python -m unittest discover -s tests" -n 5
+    - name: Trigger Render Deploy
+        run: |
+          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
