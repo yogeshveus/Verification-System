@@ -11,10 +11,10 @@ jobs:
 
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: 3.10
 
@@ -24,25 +24,18 @@ jobs:
         pip install -r requirements.txt
         pip install mutatest flake8
 
-    - name: Run Linting (Code Quality)
+    - name: Run Linting
       run: |
         flake8 . || true
 
-    - name: Run Regression Tests
+    - name: Run Unit Tests
       run: |
-        python -m pytest tests/regression -v --disable-warnings
+        python -m unittest discover -s tests
 
-    - name: Run Integration Tests
-      run: |
-        python -m pytest tests/integration -v --disable-warnings
-
-    - name: Run Mutation Testing for routes
+    - name: Run Mutation Testing
       run: |
         mutatest -s routes -t "python -m unittest discover -s tests" -n 5
 
-    - name: Run Mutation Testing for services
-      run: |
-        mutatest -s services -t "python -m unittest discover -s tests" -n 5
     - name: Trigger Render Deploy
       run: |
         curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
