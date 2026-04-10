@@ -1,0 +1,45 @@
+name: Blockchain Verification System CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.10
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install mutatest flake8
+
+    - name: Run Linting (Code Quality)
+      run: |
+        flake8 . || true
+
+    - name: Run Regression Tests
+      run: |
+        python -m pytest tests/regression -v --disable-warnings
+
+    - name: Run Integration Tests
+      run: |
+        python -m pytest tests/integration -v --disable-warnings
+
+    - name: Run Mutation Testing for routes
+      run: |
+        mutatest -s routes -t "python -m unittest discover -s tests" -n 5
+
+    - name: Run Mutation Testing for services
+      run: |
+        mutatest -s services -t "python -m unittest discover -s tests" -n 5
